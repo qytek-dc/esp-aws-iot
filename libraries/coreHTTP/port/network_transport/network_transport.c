@@ -2,6 +2,7 @@
 #include "freertos/semphr.h"
 #include <string.h>
 #include "esp_log.h"
+#include "esp_crt_bundle.h"
 #include "esp_tls.h"
 #include "network_transport.h"
 #include "sdkconfig.h"
@@ -11,8 +12,9 @@ TlsTransportStatus_t xTlsConnect( NetworkContext_t* pxNetworkContext )
     TlsTransportStatus_t xRet = TLS_TRANSPORT_SUCCESS;
 
     esp_tls_cfg_t xEspTlsConfig = {
-        .cacert_buf = (const unsigned char*) ( pxNetworkContext->pcServerRootCA ),
-        .cacert_bytes = pxNetworkContext->pcServerRootCASize,
+//        .cacert_buf = (const unsigned char*) ( pxNetworkContext->pcServerRootCA ),
+//        .cacert_bytes = pxNetworkContext->pcServerRootCASize,
+        .crt_bundle_attach = esp_crt_bundle_attach,
         .clientcert_buf = (const unsigned char*) ( pxNetworkContext->pcClientCert ),
         .clientcert_bytes = pxNetworkContext->pcClientCertSize,
         .skip_common_name = pxNetworkContext->disableSni,
